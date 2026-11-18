@@ -72,11 +72,11 @@ section[id] { scroll-margin-top: 0; }
 }
 .skip:focus { top: 16px; }
 
-/* Full / open state. Default is open; main.js adds .is-full when the day is full. */
+/* Open / waitlist state. Default is open; main.js adds .is-full when all 10 spots are taken. */
 .when-full { display: none !important; }
 .is-full .when-open { display: none !important; }
 .is-full .when-full { display: inline-flex !important; }
-.is-full form.when-full { display: flex !important; }
+.is-full p.when-full { display: block !important; }
 
 /* Buttons */
 .btn {
@@ -259,12 +259,36 @@ section[id] { scroll-margin-top: 0; }
 .register-line { font: italic 400 clamp(19px, 1.7vw, 24px)/1.5 var(--serif); color: var(--sage-text); margin-top: 24px; max-width: 25em; }
 .register .btn { margin-top: 44px; }
 
-/* Signup (full state) */
-.signup { flex-direction: column; gap: 12px; margin-top: 40px; width: min(560px, 100%); }
-.signup-title { font-size: 20px; font-weight: 600; color: var(--gold); }
-.signup-line { font-size: 17px; line-height: 1.55; color: var(--sage-text); }
+/* Waitlist modal (full state). A plain overlay, not <dialog>, so reCAPTCHA's challenge can sit above it. */
+.waitlist {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(15, 21, 18, 0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  overscroll-behavior: contain; overflow-y: auto;
+}
+.waitlist[hidden] { display: none; }
+.waitlist-panel {
+  position: relative; width: min(600px, 100%); margin: auto;
+  padding: 56px 56px 44px; border-radius: 24px;
+  background: var(--hemlock); color: var(--sage-pale);
+  border: 1px solid rgba(181, 194, 155, 0.18);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+.waitlist h2 { font: 400 clamp(36px, 4.4vw, 52px)/1.1 var(--serif); letter-spacing: -0.02em; margin-top: 14px; color: var(--sage-pale); }
+.waitlist-line { font: italic 400 19px/1.55 var(--serif); color: var(--sage-text); margin-top: 18px; max-width: 26em; }
+.waitlist-close {
+  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; border-radius: 999px; color: var(--sage-text); cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.waitlist-close:hover { background: rgba(245, 248, 239, 0.08); color: var(--sage-pale); }
+.waitlist-close svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.has-modal { overflow: hidden; }
+
+.signup { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; width: 100%; }
 .signup-row {
-  display: flex; align-items: center; margin-top: 8px; padding: 6px 6px 6px 26px;
+  display: flex; align-items: center; padding: 6px 6px 6px 26px;
   border: 1px solid rgba(213, 222, 198, 0.4); border-radius: 999px; background: rgba(245, 248, 239, 0.06);
   transition: border-color 200ms ease;
 }
@@ -274,11 +298,12 @@ section[id] { scroll-margin-top: 0; }
   font: 400 17px/1.4 var(--sans); padding: 12px 12px 12px 0; outline: none; caret-color: var(--gold);
 }
 .signup-row input::placeholder { color: rgba(213, 222, 198, 0.7); }
-.register .signup .btn { margin-top: 0; padding: 16px 28px; font-size: 17px; }
+.signup .btn { padding: 16px 28px; font-size: 17px; }
 .captcha { min-height: 78px; margin-top: 8px; }
+.captcha[hidden], .signup-row[hidden] { display: none; }
 .signup-status { font-size: 16px; line-height: 1.5; min-height: 1.5em; color: var(--sage-text); }
 .signup-status.is-error { color: #F2B8A0; }
-.signup-status.is-ok { color: var(--gold); }
+.signup-status.is-ok { color: var(--gold); font-size: 18px; }
 
 /* Footer */
 .site-footer {
@@ -299,7 +324,10 @@ section[id] { scroll-margin-top: 0; }
   .js .hero-photo img { animation: settle 2400ms var(--ease-out) both; }
   .js [data-reveal-group] > li { opacity: 0; transform: translateY(18px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
   .js [data-reveal-group] > li.is-in { opacity: 1; transform: none; }
+  .waitlist.is-open { animation: fade 240ms ease both; }
+  .waitlist.is-open .waitlist-panel { animation: rise 420ms var(--ease-out) both; }
 }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes settle { from { transform: scale(1.06); filter: brightness(0.7); } to { transform: none; filter: none; } }
 
@@ -390,6 +418,11 @@ section[id] { scroll-margin-top: 0; }
   .register-line { margin-top: 14px; }
   .register .btn { margin-top: 28px; }
   .signup-row { padding-left: 20px; }
+  .waitlist { padding: 12px; align-items: flex-end; }
+  .waitlist-panel { padding: 48px 24px 28px; border-radius: 20px; }
+  .waitlist h2 { font-size: 36px; }
+  .waitlist-line { font-size: 17px; }
+  .signup .btn { width: auto; padding: 14px 22px; }
 
   .site-footer { padding: 28px 24px 36px; font-size: 13px; }
   .site-footer img { display: none; }
