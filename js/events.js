@@ -21,6 +21,15 @@
       .catch(function () { /* stay in the open state if the hub is unreachable */ });
   }
 
+  // Long bios: "More" / "Less" toggle
+  Array.prototype.forEach.call(document.querySelectorAll(".bio-toggle"), function (btn) {
+    btn.addEventListener("click", function () {
+      var open = btn.parentNode.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.textContent = open ? "Less" : "More";
+    });
+  });
+
   // Mobile menu
   var toggle = document.querySelector(".menu-toggle");
   var nav = document.getElementById("site-nav");

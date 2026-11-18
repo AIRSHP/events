@@ -217,6 +217,15 @@ section[id] { scroll-margin-top: 0; }
 .leaders li { display: flex; flex-direction: column; gap: 4px; }
 .leaders strong { font-size: 19px; font-weight: 600; color: var(--hemlock); }
 .leaders .bio { font-size: 16px; line-height: 1.55; color: var(--green); max-width: 34em; }
+/* Long bios: rest hidden behind "More" when JS runs; without JS the full text shows */
+.bio-toggle { display: none; }
+.js .bio-toggle {
+  display: inline; padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; color: var(--teal); text-decoration: underline;
+  text-underline-offset: 0.2em; text-decoration-thickness: 1px;
+}
+.js .bio-toggle:hover { color: var(--hemlock); }
+.js .bio:not(.is-open) .bio-rest { display: none; }
 .presented {
   margin-top: auto; padding-top: 24px; font-size: 14px; letter-spacing: 0.02em; color: var(--teal);
 }
