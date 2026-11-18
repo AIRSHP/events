@@ -130,7 +130,8 @@ section[id] { scroll-margin-top: 0; }
 }
 .hero-copy { position: relative; z-index: 2; padding: 150px var(--pad-x) 72px; max-width: 1080px; }
 .hero-kicker {
-  font: 600 13px/1.2 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+  font: 600 13px/1.5 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+  text-wrap: balance;
 }
 .hero h1 {
   font: 400 clamp(56px, 8.6vw, 124px)/1 var(--serif); letter-spacing: -0.025em;
