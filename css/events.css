@@ -362,7 +362,6 @@ section[id] { scroll-margin-top: 0; }
 /* Tablet */
 @media (max-width: 1100px) {
   .site-nav { gap: 24px; }
-  .facts { flex-wrap: wrap; row-gap: 20px; }
   .part-num { flex-basis: 64px; }
 }
 
