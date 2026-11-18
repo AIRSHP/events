@@ -3,21 +3,21 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("assets/fonts/libre-baskerville-400-latin.woff2") format("woff2");
+  src: url("/assets/fonts/libre-baskerville-400-latin.woff2") format("woff2");
 }
 @font-face {
   font-family: "Libre Baskerville";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("assets/fonts/libre-baskerville-400italic-latin.woff2") format("woff2");
+  src: url("/assets/fonts/libre-baskerville-400italic-latin.woff2") format("woff2");
 }
 @font-face {
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-  src: url("assets/fonts/work-sans-var-latin.woff2") format("woff2");
+  src: url("/assets/fonts/work-sans-var-latin.woff2") format("woff2");
 }
 
 :root {
