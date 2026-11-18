@@ -99,10 +99,11 @@ section[id] { scroll-margin-top: 0; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 36px var(--pad-x) 0;
 }
+.brand { flex-shrink: 0; }
 .brand img { height: 48px; width: auto; filter: drop-shadow(0 1px 10px rgba(23, 32, 28, 0.45)); }
 .site-nav { display: flex; align-items: center; gap: 36px; }
 .site-nav a {
-  color: var(--sage-pale); text-decoration: none; font-size: 15px; font-weight: 500;
+  color: var(--sage-pale); text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap;
   text-shadow: 0 1px 12px rgba(23, 32, 28, 0.6);
 }
 .site-nav a:hover { color: var(--gold); }
@@ -365,18 +366,15 @@ section[id] { scroll-margin-top: 0; }
   .part-num { flex-basis: 64px; }
 }
 
-/* Mobile */
-@media (max-width: 860px) {
-  body { font-size: 17px; }
-  .site-header { padding-top: 24px; }
-  .brand img { height: 36px; }
+/* Header collapses to the menu button before the six links run out of room (they wrap just under 960px) */
+@media (max-width: 1024px) {
   .menu-toggle {
     display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-right: -9px;
     background: transparent; border: 0; color: var(--sage-pale); cursor: pointer; border-radius: 8px;
   }
   .menu-toggle svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
   .site-nav {
-    position: absolute; top: 76px; left: 16px; right: 16px; z-index: 20;
+    position: absolute; top: calc(100% + 8px); left: 16px; right: 16px; z-index: 20; max-width: 420px; margin-left: auto;
     flex-direction: column; align-items: stretch; gap: 0;
     padding: 8px 20px 20px; border-radius: 12px; background: rgba(23, 32, 28, 0.97);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
@@ -386,6 +384,13 @@ section[id] { scroll-margin-top: 0; }
   .site-nav.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity 200ms ease, transform 250ms var(--ease-out); }
   .site-nav a { padding: 14px 0; font-size: 17px; border-bottom: 1px solid rgba(181, 194, 155, 0.15); text-shadow: none; }
   .site-nav .nav-contact { margin-top: 16px; text-align: center; border-bottom: 1px solid rgba(245, 248, 239, 0.45); }
+}
+
+/* Mobile */
+@media (max-width: 860px) {
+  body { font-size: 17px; }
+  .site-header { padding-top: 24px; }
+  .brand img { height: 36px; }
 
   .hero { min-height: max(700px, min(100svh, 860px)); justify-content: flex-end; }
   .hero-photo img { object-position: 42% 50%; }
