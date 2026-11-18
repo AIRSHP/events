@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" href="/assets/prismatic-star-white.png">
 <link rel="preload" href="/assets/fonts/libre-baskerville-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/work-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/events.css?v=7">
+<link rel="stylesheet" href="/css/events.css?v=8">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -49,7 +49,7 @@
         <div><dt>Place</dt><dd>Private property just outside Austin</dd></div>
       </dl>
       <div class="cta-row">
-        <a class="btn btn-gold when-open" href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01">Confirm your spot<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+        <a class="btn btn-gold when-open" href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01" data-checkout aria-haspopup="dialog" aria-controls="checkout">Confirm your spot<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
         <button class="btn btn-gold when-full" type="button" data-waitlist aria-haspopup="dialog" aria-controls="waitlist">Join the waitlist<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></button>
       </div>
       <p class="hero-note when-open">Limited to 10 men. Suggested price $250: $100 now confirms your spot, the rest is up to you afterward.</p>
@@ -103,7 +103,7 @@
     <div class="split">
       <div class="split-head sticky">
         <h2 id="details-title">The details</h2>
-        <a class="btn btn-gold when-open" href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01">Confirm your spot<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+        <a class="btn btn-gold when-open" href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01" data-checkout aria-haspopup="dialog" aria-controls="checkout">Confirm your spot<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
         <button class="btn btn-gold when-full" type="button" data-waitlist aria-haspopup="dialog" aria-controls="waitlist">Join the waitlist<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></button>
       </div>
       <dl class="split-body detail-list">
@@ -163,7 +163,7 @@
       <p class="hero-kicker">Register</p>
       <h2 id="register-title">Ten spots</h2>
       <p class="register-line">This is our first one, and the group is small on purpose.</p>
-      <a class="btn btn-gold when-open" href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01">Confirm your spot<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+      <a class="btn btn-gold when-open" href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01" data-checkout aria-haspopup="dialog" aria-controls="checkout">Confirm your spot<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
 
       <button class="btn btn-gold when-full" type="button" data-waitlist aria-haspopup="dialog" aria-controls="waitlist">Join the waitlist<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></button>
     </div>
@@ -175,15 +175,33 @@
   <img src="/assets/prismatic-star-white.png" alt="" width="28" height="28">
 </footer>
 
-<div class="waitlist" id="waitlist" role="dialog" aria-modal="true" aria-labelledby="waitlist-title" aria-describedby="waitlist-line" hidden>
-  <div class="waitlist-panel">
-    <button class="waitlist-close" type="button" data-waitlist-close>
+<div class="modal" id="checkout" role="dialog" aria-modal="true" aria-labelledby="checkout-title" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-modal-close>
+      <span class="visually-hidden">Close</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M5 5l12 12M17 5L5 17"/></svg>
+    </button>
+    <p class="hero-kicker">Rite of Passage, Saturday, December 5</p>
+    <h2 id="checkout-title">Confirm your spot</h2>
+    <dl class="price-list">
+      <div class="is-today"><dt>Today</dt><dd class="amount">$100</dd><dd class="what">Confirms your spot. It is all you owe.</dd></div>
+      <div><dt>Suggested price</dt><dd class="amount">$250</dd><dd class="what">Per person, for the whole intensive.</dd></div>
+      <div><dt>After the event</dt><dd class="amount is-word">Optional</dd><dd class="what">We email you a link for a second payment. You choose the amount; we suggest $150 or more.</dd></div>
+    </dl>
+    <a class="btn btn-gold checkout-go" data-checkout-go href="https://buy.stripe.com/7sYbJ1etC1sI6Vyg2x9oc01">Continue to payment<svg class="arrow" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+    <p class="checkout-note">Secure checkout with Stripe. We ask for your name, email and phone so we can reach you before the event.</p>
+  </div>
+</div>
+
+<div class="modal" id="waitlist" role="dialog" aria-modal="true" aria-labelledby="waitlist-title" aria-describedby="waitlist-line" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-modal-close>
       <span class="visually-hidden">Close</span>
       <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M5 5l12 12M17 5L5 17"/></svg>
     </button>
     <p class="hero-kicker">Rite of Passage</p>
     <h2 id="waitlist-title">Join the waitlist</h2>
-    <p class="waitlist-line" id="waitlist-line">All 10 spots are taken. Leave your email and we'll tell you if one opens up, and about the next one.</p>
+    <p class="modal-line" id="waitlist-line">All 10 spots are taken. Leave your email and we'll tell you if one opens up, and about the next one.</p>
     <form class="signup" id="signup" action="https://assets.mailerlite.com/jsonp/2655766/forms/204321688640292616/subscribe" method="post" novalidate>
       <div class="signup-row">
         <label class="visually-hidden" for="signup-email">Email</label>
@@ -198,6 +216,6 @@
   </div>
 </div>
 
-<script src="/js/events.js?v=4" defer></script>
+<script src="/js/events.js?v=5" defer></script>
 </body>
 </html>

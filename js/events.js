@@ -55,6 +55,49 @@
     rows.forEach(function (r) { r.classList.add("is-in"); });
   }
 
+  // Modals: a plain overlay, not <dialog>, so reCAPTCHA's challenge can sit above it.
+  var outside = [document.querySelector(".skip"), document.querySelector(".site-header"), document.getElementById("main"), document.querySelector(".site-footer")];
+  var openModalEl = null, lastTrigger = null;
+  function openModal(modal, trigger, focusEl) {
+    if (openModalEl) closeModal();
+    openModalEl = modal; lastTrigger = trigger || null;
+    modal.hidden = false;
+    modal.classList.add("is-open");
+    root.classList.add("has-modal");
+    outside.forEach(function (el) { if (el) el.inert = true; });
+    (focusEl || modal.querySelector("[data-modal-close]")).focus();
+  }
+  function closeModal() {
+    if (!openModalEl) return;
+    openModalEl.hidden = true;
+    openModalEl.classList.remove("is-open");
+    root.classList.remove("has-modal");
+    outside.forEach(function (el) { if (el) el.inert = false; });
+    openModalEl = null;
+    if (lastTrigger) lastTrigger.focus();
+  }
+  document.querySelectorAll(".modal").forEach(function (m) {
+    m.addEventListener("click", function (e) { if (e.target === m || e.target.closest("[data-modal-close]")) closeModal(); });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && openModalEl) closeModal();
+  });
+
+  // Pricing step: "Confirm your spot" links go to Stripe without JS; with JS they
+  // open the pricing modal first, and its button continues to the same checkout.
+  var checkout = document.getElementById("checkout");
+  if (checkout) {
+    var go = checkout.querySelector("[data-checkout-go]");
+    document.querySelectorAll("[data-checkout]").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+        e.preventDefault();
+        go.href = a.href;
+        openModal(checkout, a, go);
+      });
+    });
+  }
+
   if (root.classList.contains("is-full")) initWaitlist();
 
   // Waitlist modal (waitlist mode only). reCAPTCHA loads the first time it opens.
@@ -68,10 +111,8 @@
     var email = form.querySelector("input[type=email]");
     var button = form.querySelector("button[type=submit]");
     var captchaEl = document.getElementById("signup-captcha");
-    var outside = [document.querySelector(".skip"), document.querySelector(".site-header"), document.getElementById("main"), document.querySelector(".site-footer")];
     var widgetId = null;
     var captchaRequested = false;
-    var lastTrigger = null;
 
     function renderCaptcha() {
       if (widgetId !== null || !window.grecaptcha || !window.grecaptcha.render) return;
@@ -87,30 +128,11 @@
       document.head.appendChild(s);
     }
 
-    function openWaitlist(trigger) {
-      lastTrigger = trigger || null;
-      modal.hidden = false;
-      modal.classList.add("is-open");
-      root.classList.add("has-modal");
-      outside.forEach(function (el) { if (el) el.inert = true; });
-      loadCaptcha();
-      if (!form.classList.contains("is-done")) email.focus(); else modal.querySelector("[data-waitlist-close]").focus();
-    }
-    function closeWaitlist() {
-      modal.hidden = true;
-      modal.classList.remove("is-open");
-      root.classList.remove("has-modal");
-      outside.forEach(function (el) { if (el) el.inert = false; });
-      if (lastTrigger) lastTrigger.focus();
-    }
-
     document.querySelectorAll("[data-waitlist]").forEach(function (b) {
-      b.addEventListener("click", function () { openWaitlist(b); });
-    });
-    modal.querySelector("[data-waitlist-close]").addEventListener("click", closeWaitlist);
-    modal.addEventListener("click", function (e) { if (e.target === modal) closeWaitlist(); });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !modal.hidden) closeWaitlist();
+      b.addEventListener("click", function () {
+        openModal(modal, b, form.classList.contains("is-done") ? null : email);
+        loadCaptcha();
+      });
     });
 
     function say(msg, kind) {
